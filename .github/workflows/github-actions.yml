@@ -35,6 +35,14 @@ jobs:
       env:
         PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
         PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
+      run: prefect deployment run "Load Data to Azure SQL"/copyingfiledeployment
+
+    - name: Start the Agent
+      env:
+        PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
+        PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
+      run: prefect agent start --pool "default-agent-pool" --work-queue "default"
+      
 
     
     
