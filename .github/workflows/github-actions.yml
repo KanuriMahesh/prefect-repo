@@ -22,20 +22,26 @@ jobs:
     - name: Install Prefect
       run: pip install -U prefect
 
+    - name: Install Dependencies
+      run: |
+        pip install pandas
+        pip install sqlalchemy
+        pip install pyodbc
+
     - name: Build Deployment
-      run: prefect deployment build copyfilefromlocaltosql.py:file_movement_flow -n copyingfiledeployment -o prefect-deployment.yaml
+      run: prefect deploy build copyfilefromlocaltosql.py:file_movement_flow -n copyingfiledeployment -o prefect-deployment.yaml
 
     - name: Apply Deployment
       env:
         PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
         PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
-      run: prefect deployment apply prefect-deployment.yaml
+      run: prefect deploy apply prefect-deployment.yaml
 
     - name: Execute Deployment
       env:
         PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
         PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
-      run: prefect deployment run "file_movement_flow"/copyingfiledeployment
+      run: prefect deployment run file_movement_flow/copyingfiledeployment
 
     - name: Start the Agent
       env:
