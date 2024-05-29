@@ -1,0 +1,40 @@
+name: Prefect Deployment
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+    - uses: actions/checkout@v2
+
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.12' # Mention the python version greater than 3.8
+
+    - name: Install Prefect
+      run: pip install -U prefect
+
+    - name: Build Deployment
+      run: prefect deployment build copyfilefromlocaltosql.py:file_movement_flow -n copyingfiledeployment -o prefect-deployment.yaml
+
+    - name: Apply Deployment
+      env:
+        PREFECT_API_KEY: ${{PREFECT_API_KEY }}
+        PREFECT_API_URL: ${{PREFECT_API_URL }}
+      run: prefect deployment apply
+
+    
+    
+
+  
+    
+
+    
