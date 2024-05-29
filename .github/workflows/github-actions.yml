@@ -12,12 +12,12 @@ jobs:
 
     steps:
     - name: Checkout
-    - uses: actions/checkout@v2
+      uses: actions/checkout@v2
 
     - name: Setup Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.12' # Mention the python version greater than 3.8
+        python-version: '3.12' # Specify the Python version greater than 3.8
 
     - name: Install Prefect
       run: pip install -U prefect
@@ -35,19 +35,10 @@ jobs:
       env:
         PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
         PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
-      run: prefect deployment run "Load Data to Azure SQL"/copyingfiledeployment
+      run: prefect deployment run "file_movement_flow"/copyingfiledeployment
 
     - name: Start the Agent
       env:
         PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
         PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
       run: prefect agent start --pool "default-agent-pool" --work-queue "default"
-      
-
-    
-    
-
-  
-    
-
-    
