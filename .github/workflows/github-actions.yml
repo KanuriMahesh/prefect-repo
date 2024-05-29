@@ -29,6 +29,9 @@ jobs:
         pip install pyodbc
 
     - name: Build Deployment
+      env:
+        PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
+        PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
       run: prefect deployment build copyfilefromlocaltosql.py:file_movement_flow -n copyingfiledeployment -o prefect-deployment.yaml
 
     - name: Apply Deployment
