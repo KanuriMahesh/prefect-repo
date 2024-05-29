@@ -3,7 +3,7 @@ name: Prefect Deployment
 on:
   push:
     branches:
-    - main
+      - main
 
 jobs:
   deploy:
