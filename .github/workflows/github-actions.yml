@@ -27,9 +27,14 @@ jobs:
 
     - name: Apply Deployment
       env:
-        PREFECT_API_KEY: ${{PREFECT_API_KEY }}
-        PREFECT_API_URL: ${{PREFECT_API_URL }}
-      run: prefect deployment apply
+        PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
+        PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
+      run: prefect deployment apply prefect-deployment.yaml
+
+    - name: Execute Deployment
+      env:
+        PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
+        PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
 
     
     
