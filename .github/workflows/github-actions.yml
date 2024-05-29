@@ -28,29 +28,26 @@ jobs:
         pip install sqlalchemy
         pip install pyodbc
         
-    - name: Prefect Cloud Login
-      run: prefect cloud login --key pnu_pfT12EVwGQzhBk5nPFO2xsovGHTkXE2zFG0 --workspace-id 8562ec46-9596-4bb0-8fa6-f3fecb2767d3
-      
     - name: Build Deployment
-      # env:
-        # PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
-        # PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
+      env:
+        PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
+        PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
       run: prefect deployment build copyfilefromlocaltosql.py:file_movement_flow -n copyingfiledeployment -o prefect-deployment.yaml
 
     - name: Apply Deployment
-      # env:
-        # PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
-        # PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
+      env:
+        PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
+        PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
       run: prefect deployment apply prefect-deployment.yaml
 
     - name: Execute Deployment
-      # env:
-        # PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
-        # PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
+      env:
+        PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
+        PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
       run: prefect deployment run file_movement_flow/copyingfiledeployment
 
     - name: Start the Agent
-      # env:
-        # PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
-        # PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
+      env:
+        PREFECT_API_KEY: ${{ secrets.PREFECT_API_KEY }}
+        PREFECT_API_URL: ${{ secrets.PREFECT_API_URL }}
       run: prefect agent start --pool "default-agent-pool" --work-queue "default"
