@@ -29,7 +29,7 @@ jobs:
         pip install pyodbc
         
     - name: Prefect Cloud Login
-      run: prefect cloud login -k pnu_pfT12EVwGQzhBk5nPFO2xsovGHTkXE2zFG0
+      run: prefect cloud login --key pnu_pfT12EVwGQzhBk5nPFO2xsovGHTkXE2zFG0 --workspace default
       
     - name: Build Deployment
       # env:
