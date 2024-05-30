@@ -4,14 +4,27 @@ from sqlalchemy import create_engine, Table, Column, Integer, String, MetaData  
 from sqlalchemy.sql import text  # Import text function for raw SQL queries
 from prefect.blocks.system import Secret  # Import Secret block for secure storage of secrets
 
-# Define database connection parameters using secrets stored in Prefect Cloud
-SERVER_NAME = Secret.load("server-name").get()  # Load server name
-DATABASE_NAME = Secret.load("database-name").get()  # Load database name
-USERNAME = Secret.load("username").get()  # Load username
-PASSWORD = Secret.load("password").get()  # Load password
-DRIVER = Secret.load("driver").get()  # Load database driver
-SCHEMA_NAME = Secret.load("schema-name").get()  # Load schema name
-TABLE_NAME = Secret.load("table-name").get()  # Load table name
+# Function to get secret from Prefect Secret block
+def get_secret(name):
+    return Secret.load(name).get()
+
+# Define database connection parameters using Prefect Secret blocks
+SERVER_NAME = get_secret("server-name") # Load server name
+DATABASE_NAME = get_secret("database-name") # Load database name
+USERNAME = get_secret("username") # Load username
+PASSWORD = get_secret("password") # Load password
+DRIVER = get_secret("driver") # Load database driver
+SCHEMA_NAME = get_secret("schema-name") # Load schema name
+TABLE_NAME = get_secret("table-name") # Load table name
+
+# # Define database connection parameters using secrets stored in Prefect Cloud
+# SERVER_NAME = Secret.load("server-name").get()  # Load server name
+# DATABASE_NAME = Secret.load("database-name").get()  # Load database name
+# USERNAME = Secret.load("username").get()  # Load username
+# PASSWORD = Secret.load("password").get()  # Load password
+# DRIVER = Secret.load("driver").get()  # Load database driver
+# SCHEMA_NAME = Secret.load("schema-name").get()  # Load schema name
+# TABLE_NAME = Secret.load("table-name").get()  # Load table name
 
 # Create connection string for connecting to the Azure SQL Database
 connection_string = (
